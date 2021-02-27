@@ -185,8 +185,9 @@ namespace ItemWeightCustomizer
                     var newWeight = FindWeightCategory("armors", armor.EditorID) ?? armorWeight;
                     if (Math.Abs(armor.Weight - newWeight) < float.Epsilon) continue;
                     var modifiedArmor = armor.DeepCopy();
-                    modifiedArmor.Weight = newWeight;
-                    state.PatchMod.Armors.Add(modifiedArmor);
+                    modifiedArmor.Weight = (float)Math.Round((armor.Weight * newWeight));
+                    // modifiedArmor.Weight = newWeight;
+                    state.PatchMod.Armors.GetOrAddAsOverride(modifiedArmor);
                 }
             }
 
@@ -202,7 +203,8 @@ namespace ItemWeightCustomizer
 
                     var modifiedWeapon = state.PatchMod.Weapons.GetOrAddAsOverride(weapon);
                     //var modifiedWeapon = weapon.DeepCopy();
-                    modifiedWeapon.BasicStats!.Weight = newWeight;
+                    modifiedWeapon.BasicStats!.Weight = (float)Math.Round((weapon.BasicStats.Weight * newWeight));
+                    // modifiedWeapon.BasicStats!.Weight = newWeight;
                     //state.PatchMod.Weapons.Add(modifiedWeapon);
                 }
             }
@@ -272,7 +274,8 @@ namespace ItemWeightCustomizer
                     if (newWeight < 0) continue;
                     if (Math.Abs(item.Weight - newWeight) < float.Epsilon) continue;
                     var modifiedItem = item.DeepCopy();
-                    modifiedItem.Weight = newWeight;
+                    modifiedItem.Weight = (float)Math.Round((item.Weight * newWeight),1);
+                    // modifiedItem.Weight = newWeight;
                     state.PatchMod.MiscItems.Add(modifiedItem);
                 }
             }
